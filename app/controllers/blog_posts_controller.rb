@@ -2,6 +2,7 @@ class BlogPostsController < ApplicationController
   # GET
   # listing all blog posts
   def index
+    # if view needs access you need an instance var
     @blog_posts = BlogPost.all
   end
 
@@ -20,7 +21,14 @@ class BlogPostsController < ApplicationController
   # POST
   # responsible for creating a new blog post record
   def create
-    binding.pry
+    @blog_post = BlogPost.new(blog_post_params)
+    if @blog_post.save
+      # got a new record in the database
+      redirect_to blog_posts_path
+    else
+      # something went wrong, have user fix errors on the form
+      render :new
+    end
   end
 
   # GET
@@ -32,7 +40,12 @@ class BlogPostsController < ApplicationController
   # PUT / PATCH
   # finding the record to update and updating it
   def update
-    binding.pry
+    @blog_post = BlogPost.find(params[:id])
+    if @blog_post.update(blog_post_params)
+      redirect_to blog_post_path(@blog_post)
+    else
+      render :edit
+    end
   end
 
   # DELETE
@@ -40,5 +53,12 @@ class BlogPostsController < ApplicationController
   def destroy
     @blog_post = BlogPost.find(params[:id])
     @blog_post.destroy
+    redirect_to blog_posts_path
   end
+
+  # Strong Params
+  private
+    def blog_post_params
+      params.require(:blog_post).permit(:title, :author, :content)
+    end
 end

@@ -1,2 +1,7 @@
-<h1>BlogPosts#show</h1>
-<p>Find me in app/views/blog_posts/show.html.erb</p>
+ <h1> <%= @blog_post.title %> </h1>
+ <h5> <%= @blog_post.author %> </h5>
+ <h5> <%= @blog_post.created_at %></h5>
+ <br>
+ <p> <%= @blog_post.content %> </p>
+
+ <%= link_to 'All Posts', blog_posts_path %>
