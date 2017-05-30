@@ -1,0 +1,20 @@
+<h1>All Blog Posts</h1>
+<hr>
+
+<%= link_to 'New Blog Post', new_blog_post_path %>
+
+<% if @blog_posts.empty? %>
+  <h3>No Blog Posts Found</h3>
+<% else %>
+  <ul>
+    <% @blog_posts.each do |blog_post| %>
+      <li>
+        <h2><%= link_to blog_post.title, blog_post_path(blog_post) %></h2>
+        <%= link_to 'Edit', edit_blog_post_path(blog_post) %>
+        <%= link_to 'Delete', blog_post_path(blog_post), method: :delete %>
+        <h5><%= blog_post.author %></h5>
+        <p><%= truncate(blog_post.content, :length => 80)%></p>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
